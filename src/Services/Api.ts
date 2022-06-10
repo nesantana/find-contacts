@@ -2,6 +2,7 @@ import axios, { AxiosStatic, AxiosInstance, AxiosResponse } from 'axios'
 
 export interface ApiResponse<T = any> extends AxiosResponse<T> {
 }
+
 class Api {
   public request: AxiosInstance
 
