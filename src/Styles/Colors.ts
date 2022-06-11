@@ -1,0 +1,18 @@
+export const Colors: any = {
+  primary: '#007BB0',
+  underlayPrimary: '#EAF9FF',
+  text: '#000000',
+  negative: '#444444',
+  success: '#00D015',
+  successHover: '#008C0E',
+  error: '#FE0000',
+  errorHover: '#B00000',
+  warn: '#FF8E3D',
+  warnHover: '#C65300',
+  background: '#EEEEEE',
+  white: '#FFFFFF',
+  black: '#000000',
+  bgSecundary: '#F8F8F8',
+  bgOthers: '#C4C4C4',
+  textSecundary: '#999999',
+}

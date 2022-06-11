@@ -61,8 +61,8 @@ const urls = {
   },
   categories: {
     find: '/categories/',
-    create: '/categories/create/'
-  }
+    create: '/categories/create/',
+  },
 }
 
 export {
