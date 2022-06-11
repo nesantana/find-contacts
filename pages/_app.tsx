@@ -1,4 +1,5 @@
 import { CategoriesProvider } from '@src/Contexts/Categories.context'
+import { ContactsProvider } from '@src/Contexts/Contacts.context'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle } from 'styled-components'
 
@@ -68,10 +69,12 @@ const GlobalStyle = createGlobalStyle`
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <CategoriesProvider>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </CategoriesProvider>
+      <ContactsProvider>
+        <CategoriesProvider>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </CategoriesProvider>
+      </ContactsProvider>
     </>
   )
 }
