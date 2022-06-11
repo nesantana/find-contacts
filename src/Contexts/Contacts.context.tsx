@@ -7,7 +7,7 @@ interface iContactsContext {
   loadingContacts: boolean
   setLoadingContacts(bool: boolean): void
   searchContacts(): void
-  createContact(value: string): void
+  createContact(contact: any): void
   contacts: any[]
 }
 
@@ -35,7 +35,7 @@ export const ContactsProvider: React.FC<any> = ({ children }) => {
   }
 
   const createContact = async (newContact: any) => {
-    setLoadingContacts(true)
+    setLoadingContacts(false)
 
     try {
       await api.post(urls.contacts.create, { ...newContact })

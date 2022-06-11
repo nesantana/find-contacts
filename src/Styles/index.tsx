@@ -62,7 +62,11 @@ export const Box = styled.div<iBox>`
   z-index: 1;
 `
 
-export const Input = styled.input`
+export const Input = styled.input<iMarginsOptions>`
+  ${({ marginTop = '' }) => !!marginTop && `margin-top: ${marginTop}px;`}
+  ${({ marginBottom = '' }) => !!marginBottom && `margin-bottom: ${marginBottom}px;`}
+  ${({ marginLeft = '' }) => !!marginLeft && `margin-left: ${marginLeft}px;`}
+  ${({ marginRight = '' }) => !!marginRight && `margin-right: ${marginRight}px;`}
   border: 1px solid ${Colors.negative};
   padding: 0 20px;
   height: 50px;
@@ -80,14 +84,14 @@ export const rotate = keyframes`
   }
 `
 
-interface iIconRotate {
+interface iMarginsOptions {
   marginTop?: number
   marginLeft?: number
   marginBottom?: number
   marginRight?: number
 }
 
-export const IconRotate = styled(BiLoaderAlt)<iIconRotate>`
+export const IconRotate = styled(BiLoaderAlt)<iMarginsOptions>`
   display: inline-block;
   animation: ${rotate} 2s linear infinite;
   ${({ marginTop = '' }) => !!marginTop && `margin-top: ${marginTop}px;`}

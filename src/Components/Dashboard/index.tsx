@@ -2,6 +2,7 @@ import { Container } from '@src/Styles'
 import React from 'react'
 import { Categories } from '../Categories'
 import { CreateCategory } from '../CreateCategory'
+import { CreateContact } from '../CreateContact'
 import { Header } from '../Header'
 
 export const Dashboard: React.FC<any> = ({ children }) => (
@@ -12,6 +13,7 @@ export const Dashboard: React.FC<any> = ({ children }) => (
 
     <Categories />
     <CreateCategory />
+    <CreateContact />
 
     <Container>
       { children }
