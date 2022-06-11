@@ -1,3 +1,4 @@
+import { iCategory } from '@src/Interfaces'
 import { api, urls } from '@src/Services/Api'
 import React, { useContext, createContext, useState } from 'react'
 
@@ -18,13 +19,13 @@ export const useCategoriesContext = () => useContext(CategoriesContext)
 export const CategoriesProvider: React.FC<any> = ({ children }) => {
   const [openCreateCategory, setOpenCreateCategory] = useState<boolean>(false)
   const [loadingCategories, setLoadingCategories] = useState<boolean>(false)
-  const [categories, setCategories] = useState<any[]>([])
+  const [categories, setCategories] = useState<iCategory[]>([])
 
   const searchCategories = async () => {
     setLoadingCategories(true)
 
     try {
-      const { data } : any = api.get(urls.categories.find)
+      const { data } : any = await api.get(urls.categories.find)
 
       setCategories(data)
     } catch (error) {
@@ -38,13 +39,12 @@ export const CategoriesProvider: React.FC<any> = ({ children }) => {
     setLoadingCategories(true)
 
     try {
-      const newCategory = await api.post(urls.categories.create, { value })
-
-      console.log(newCategory)
+      await api.post(urls.categories.create, { value })
     } catch (error) {
       console.error(error)
     } finally {
-      setLoadingCategories(false)
+      setOpenCreateCategory(false)
+      searchCategories()
     }
   }
 
