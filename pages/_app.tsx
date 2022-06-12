@@ -63,6 +63,10 @@ const GlobalStyle = createGlobalStyle`
     border: 0;
   }
 
+  .active-plus {
+    transform: rotate(45deg);
+  }
+
   @media screen and (max-width: 1200px) {}
 `
 

@@ -19,7 +19,7 @@ export const Button: React.FC<iButton> = ({
   title = 'Button',
 }) => (
   <SimpleButton type={type as any} marginLeft={marginLeft} onClick={onClick}>
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <Box display="flex" justifyContent="center" alignItems="center" color="white">
       { title }
 
       { loading && <IconRotate fontSize="20px" /> }

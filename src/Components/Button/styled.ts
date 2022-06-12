@@ -1,12 +1,8 @@
-import { iTypeButton } from '@src/Interfaces'
+import { iMarginsOptions, iTypeButton } from '@src/Interfaces'
 import { Colors } from '@src/Styles/Colors'
 import styled from 'styled-components'
 
-interface iButton {
-  marginTop?: number
-  marginLeft?: number
-  marginBottom?: number
-  marginRight?: number
+interface iButton extends iMarginsOptions {
   type?: iTypeButton
 }
 

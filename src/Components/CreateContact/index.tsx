@@ -4,7 +4,8 @@ import {
   Box, Container, Input,
 } from '@src/Styles'
 import { Colors } from '@src/Styles/Colors'
-import React, { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from '../Button'
 import { Category } from '../Categories/styled'
 
@@ -14,11 +15,26 @@ export const CreateContact: React.FC<any> = () => {
   const [phone, setPhone] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<number[]>([])
 
+  const [termToFilterCategories, setTermToFilterCategories] = useState('')
+
   const {
     openCreateContact,
     createContact,
+    updateContact,
     loadingContacts,
+    contactToEdit,
+    setContactToEdit,
+    isEdit,
   } = useContactsContext()
+
+  useEffect(() => {
+    if (contactToEdit) {
+      setName(contactToEdit?.name ?? '')
+      setEmail(contactToEdit?.email ?? '')
+      setPhone(contactToEdit?.phone ?? '')
+      setSelectedCategories(JSON.parse(contactToEdit?.categories) ?? [])
+    }
+  }, [contactToEdit])
 
   const {
     categories,
@@ -43,12 +59,20 @@ export const CreateContact: React.FC<any> = () => {
       ...prevState,
       id,
     ])
-    console.log(selectedCategories)
   }
 
-  // if (openCreateContact === false) {
-  //   return <></>
-  // }
+  const categoriesFilter = useMemo(() => categories.filter(
+    ({
+      value,
+    }) => value.toLowerCase().includes(termToFilterCategories.toLowerCase()),
+  ), [
+    categories,
+    termToFilterCategories,
+  ])
+
+  if (openCreateContact === false) {
+    return <></>
+  }
 
   return (
     <Box background="underlayPrimary">
@@ -80,9 +104,16 @@ export const CreateContact: React.FC<any> = () => {
           </Box>
 
           <Box marginTop={30} display="flex" border={`1px solid ${Colors.text}`} borderRadius="10">
-            <Box paddingX={20} paddingY={20} display="flex" flexWrap="wrap">
+            <Box paddingX="0px 20" paddingY="20px 20" display="flex" flexWrap="wrap">
+              <Input
+                placeholder="Buscar categorias..."
+                noBorder
+                marginBottom={20}
+                value={termToFilterCategories}
+                onChange={({ target }) => setTermToFilterCategories(target.value)}
+              />
               {
-                !!categories.length && categories.map((category) => (
+                !!categories.length && categoriesFilter.map((category) => (
                   <Category
                     small
                     negative
@@ -97,17 +128,44 @@ export const CreateContact: React.FC<any> = () => {
             </Box>
           </Box>
 
-          <Box marginTop={30} display="flex" justifyContent="flex-end">
-            <Button
-              loading={loadingContacts}
-              onClick={() => createContact({
-                name,
-                email,
-                phone,
-                selectedCategories,
-              })}
-              title="Cadastrar"
-            />
+          <Box marginTop={30} display="flex" justifyContent={isEdit ? 'space-between' : 'flex-end'}>
+            {
+              isEdit && (
+                <>
+                  <Button
+                    onClick={() => setContactToEdit(null)}
+                    title="Cancelar"
+                    type="error"
+                  />
+
+                  <Button
+                    loading={loadingContacts}
+                    onClick={() => updateContact({
+                      id: contactToEdit?.id,
+                      name,
+                      email,
+                      phone,
+                      categories: JSON.stringify(selectedCategories),
+                    })}
+                    title="Atualizar Contato"
+                  />
+                </>
+              )
+            }
+            {
+              isEdit === false && (
+              <Button
+                loading={loadingContacts}
+                onClick={() => createContact({
+                  name,
+                  email,
+                  phone,
+                  categories: JSON.stringify(selectedCategories),
+                })}
+                title="Cadastrar"
+              />
+              )
+            }
           </Box>
         </Box>
       </Container>

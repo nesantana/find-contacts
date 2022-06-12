@@ -58,6 +58,7 @@ const urls = {
   contacts: {
     find: '/contacts/',
     create: '/contacts/create/',
+    edit: '/contacts/edit/',
   },
   categories: {
     find: '/categories/',
