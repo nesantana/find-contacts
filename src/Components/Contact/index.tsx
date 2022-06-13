@@ -134,7 +134,7 @@ export const Contact: React.FC<iContactComponent> = ({
       <Box
         marginTop={30}
         width="100%"
-        display="flex"
+        display={isMobile ? 'block' : 'flex'}
         color="primary"
         justifyContent="space-between"
         paddingX={20}
@@ -146,6 +146,7 @@ export const Contact: React.FC<iContactComponent> = ({
       >
         <Box
           display="flex"
+          justifyContent={isMobile ? 'center' : 'flex-start'}
           color="primary"
           alignItems="center"
           cursor="pointer"
@@ -176,6 +177,8 @@ export const Contact: React.FC<iContactComponent> = ({
           alignItems="center"
           cursor="pointer"
           data-testid="phone"
+          marginTop={isMobile ? 20 : 0}
+          justifyContent={isMobile ? 'center' : 'flex-start'}
         >
           <FaWhatsapp
             fontSize={17}
