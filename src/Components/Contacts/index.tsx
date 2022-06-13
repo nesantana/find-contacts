@@ -15,7 +15,10 @@ import {
 import { removeChars } from '@src/Utils/removeCharacters'
 import { useCategoriesContext } from '@src/Contexts/Categories.context'
 import { Colors } from '@src/Styles/Colors'
+import { useRouter } from 'next/router'
+import { iContact } from '@src/Interfaces'
 import { Category } from '../Categories/styled'
+import { Contact } from '../Contact'
 
 export const Contacts: React.FC<any> = () => {
   const {
@@ -43,21 +46,35 @@ export const Contacts: React.FC<any> = () => {
     }
   }, [])
 
-  const handleOpenContact = (id: number) => {
-    if (id === contactOpen) {
-      return setContactOpen(null)
+  const { query } = useRouter()
+
+  const contactsByCategories = useMemo(() => {
+    if (!query.categories) {
+      return contacts
     }
 
-    setContactOpen(id)
-  }
+    return (
+      contacts.filter(
+        (contact: iContact) => (
+          JSON.parse(contact.categories).some((category: string) => (
+            JSON.stringify(query?.categories).includes(category)
+          ))
+        ),
+      )
+    )
+  }, [
+    contacts,
+    query,
+  ])
 
-  const contactsFilter = useMemo(() => contacts.filter(
+  const contactsFilter = useMemo(() => contactsByCategories.filter(
     ({
       name,
     }) => name.toLowerCase().includes(termToFilterContacts.toLowerCase()),
   ), [
     contacts,
     termToFilterContacts,
+    query,
   ])
 
   return (
@@ -87,138 +104,13 @@ export const Contacts: React.FC<any> = () => {
 
       {
         !!contacts.length && contactsFilter.map((contact, index) => (
-          <Box
+          <Contact
             key={contact.id}
-            paddingY={20}
-            paddingX={20}
-            background={index % 2 === 0 ? 'underlayPrimary' : 'white'}
-            borderRadius="10"
-          >
-            <Box
-              display="flex"
-              justifyContent="space-between"
-            >
-              <Box>
-                { contact.name }
-              </Box>
-              <Box display="flex" maxWidth="300" flexWrap="wrap">
-                { JSON.parse(contact?.categories ?? []).map((id: string) => (
-                  <Category
-                    small
-                    negative
-                    fontSize={10}
-                    noMarginBottom
-                  >
-                    { categories.find((category) => category.id === Number(id))?.value ?? '' }
-                  </Category>
-                )) }
-              </Box>
-              <Box color="primary">
-                <FiEye
-                  fontSize={17}
-                  style={{ marginLeft: 20 }}
-                  cursor="pointer"
-                  onClick={() => handleOpenContact(contact.id as number)}
-                />
-                <a href={`https://api.whatsapp.com/send?phone=55${removeChars(contact.phone)}`} target="_blank" rel="noreferrer">
-                  <FaWhatsapp
-                    fontSize={17}
-                    style={{ marginLeft: 20 }}
-                    cursor="pointer"
-                  />
-                </a>
-                <a
-                  href={`tel:+55${removeChars(contact.phone)}`}
-                >
-                  <FaPhone
-                    fontSize={17}
-                    style={{ marginLeft: 20 }}
-                    cursor="pointer"
-                  />
-                </a>
-                <a
-                  href={`mailto:${contact.email}`}
-                >
-                  <FaEnvelopeOpenText
-                    fontSize={17}
-                    style={{ marginLeft: 20 }}
-                    cursor="pointer"
-                  />
-                </a>
-                <FaUserEdit
-                  fontSize={17}
-                  style={{ marginLeft: 20 }}
-                  cursor="pointer"
-                  onClick={() => setContactToEdit(contact)}
-                />
-              </Box>
-            </Box>
-            { contactOpen === contact.id && (
-              <Box
-                marginTop={30}
-                width="100%"
-                display="flex"
-                color="primary"
-                justifyContent="space-between"
-                paddingX={20}
-                paddingY={20}
-                background="white"
-                shadow
-                borderRadius={10}
-              >
-                <Box
-                  display="flex"
-                  color="primary"
-                  alignItems="center"
-                  cursor="pointer"
-                >
-                  <FaEnvelopeOpenText
-                    fontSize={17}
-                  />
-
-                  <Box
-                    marginLeft={10}
-                    color="primary"
-                  >
-                    { contact.email }
-                  </Box>
-
-                  <CopyToClipboard text={contact.email}>
-                    <FiCopy
-                      fontSize={17}
-                      style={{ marginLeft: 10 }}
-                      cursor="pointer"
-                    />
-                  </CopyToClipboard>
-                </Box>
-                <Box
-                  display="flex"
-                  color="primary"
-                  alignItems="center"
-                  cursor="pointer"
-                >
-                  <FaWhatsapp
-                    fontSize={17}
-                  />
-
-                  <Box
-                    marginLeft={10}
-                    color="primary"
-                  >
-                    { contact.phone }
-                  </Box>
-
-                  <CopyToClipboard text={contact.phone}>
-                    <FiCopy
-                      fontSize={17}
-                      style={{ marginLeft: 10 }}
-                      cursor="pointer"
-                    />
-                  </CopyToClipboard>
-                </Box>
-              </Box>
-            ) }
-          </Box>
+            contact={contact}
+            index={index}
+            setContactOpen={setContactOpen}
+            contactOpen={contactOpen}
+          />
         ))
       }
     </Container>

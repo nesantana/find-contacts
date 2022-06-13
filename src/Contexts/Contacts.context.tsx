@@ -50,7 +50,6 @@ export const ContactsProvider: React.FC<any> = ({ children }) => {
     try {
       const { data } : any = await api.get(urls.contacts.find)
 
-      console.log(data)
       setContacts(data)
     } catch (error) {
       console.error(error)
