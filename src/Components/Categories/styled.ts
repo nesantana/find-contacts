@@ -32,4 +32,16 @@ export const Category = styled.div<iCategory>`
   svg {
     transition: 0s;
   }
+
+
+  @media screen and (max-width: 1200px) {
+    padding: 10px;
+    height: auto;
+    font-size: 10px;
+    margin: 0 10px 10px 0;
+
+    svg {
+      font-size: 10px;
+    }
+  }
 `

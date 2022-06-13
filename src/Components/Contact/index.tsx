@@ -3,7 +3,7 @@ import { useContactsContext } from '@src/Contexts/Contacts.context'
 import { iContact } from '@src/Interfaces'
 import { Box } from '@src/Styles'
 import { removeChars } from '@src/Utils/removeCharacters'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import {
   FaEnvelopeOpenText, FaPhone, FaUserEdit, FaWhatsapp,
@@ -45,6 +45,22 @@ export const Contact: React.FC<iContactComponent> = ({
     }
   }, [])
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  const verifyMobile = () => {
+    const { innerWidth: width } = window
+
+    const resolutionMobile = width <= 1200
+
+    setIsMobile(resolutionMobile)
+  }
+
+  useEffect(() => {
+    verifyMobile()
+    window.addEventListener('resize', verifyMobile)
+    return () => window.removeEventListener('resize', verifyMobile)
+  }, [])
+
   return (
     <Box
       key={contact.id}
@@ -54,13 +70,13 @@ export const Contact: React.FC<iContactComponent> = ({
       borderRadius="10"
     >
       <Box
-        display="flex"
+        display={isMobile ? 'block' : 'flex'}
         justifyContent="space-between"
       >
-        <Box data-testid="name">
+        <Box data-testid="name" marginBottom={isMobile ? 20 : 0} display="flex" justifyContent={isMobile ? 'center' : 'flex-start'}>
           { contact.name }
         </Box>
-        <Box display="flex" maxWidth="300" flexWrap="wrap">
+        <Box display="flex" maxWidth={isMobile ? '100%' : '300'} flexWrap="wrap" justifyContent="center" marginBottom={isMobile ? 10 : 0}>
           { JSON.parse(contact?.categories ?? []).map((id: string) => (
             <Category
               key={`${id}-categories-${contact.id}`}
@@ -74,7 +90,7 @@ export const Contact: React.FC<iContactComponent> = ({
             </Category>
           )) }
         </Box>
-        <Box color="primary">
+        <Box color="primary" display="flex" justifyContent={isMobile ? 'center' : 'flex-end'}>
           <FiEye
             fontSize={17}
             style={{ marginLeft: 20 }}

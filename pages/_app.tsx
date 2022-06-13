@@ -1,5 +1,6 @@
 import { CategoriesProvider } from '@src/Contexts/Categories.context'
 import { ContactsProvider } from '@src/Contexts/Contacts.context'
+import { MobileProvider } from '@src/Contexts/Mobile.context'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle } from 'styled-components'
 
