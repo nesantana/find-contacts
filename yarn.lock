@@ -306,6 +306,26 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@datadog/browser-core@4.11.3":
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.11.3.tgz#18b199a898a217632566a8e13d8a9189b82589bd"
+  integrity sha512-XZWZgFgT2RwWGuPTwg7bRw0QseKrWy9sgDl7Zbsl4X2rfuFaNOTNUSOqLkZ+OTmMgVwKU44xG0FMqDF430F3jQ==
+
+"@datadog/browser-rum-core@4.11.3":
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.11.3.tgz#a13f7e560f1340dcb19db38f603039462b75aab3"
+  integrity sha512-sx530csn4WXMkNWw/U46/MryA6EISs+ivnfZGIVtgKBQ4FoRAalR0+PpHkPdpl5i2i0b0bCIkuC+O+9sWSZhCw==
+  dependencies:
+    "@datadog/browser-core" "4.11.3"
+
+"@datadog/browser-rum@^4.11.3":
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.11.3.tgz#9dc7da1840c1b73adf9177b60a760cf2b12cf086"
+  integrity sha512-BPFASm4qkY3BzYw7YjaVZS6ui+p8MoHUGaqoCo7t6tf6bacS6BbLOkkOuU4DDlfTO1Bc4ejgq34i1aRSMRJiKw==
+  dependencies:
+    "@datadog/browser-core" "4.11.3"
+    "@datadog/browser-rum-core" "4.11.3"
+
 "@emotion/is-prop-valid@^1.1.0":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-1.1.2.tgz"

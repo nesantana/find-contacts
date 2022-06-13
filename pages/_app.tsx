@@ -1,8 +1,23 @@
 import { CategoriesProvider } from '@src/Contexts/Categories.context'
 import { ContactsProvider } from '@src/Contexts/Contacts.context'
-import { MobileProvider } from '@src/Contexts/Mobile.context'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle } from 'styled-components'
+import { datadogRum } from '@datadog/browser-rum'
+
+datadogRum.init({
+  applicationId: '9f8bdc12-edeb-425a-af57-cc83603399fb',
+  clientToken: 'pube24b3fa0113cd7a156a8be9e34e26c0b',
+  site: 'datadoghq.com',
+  service: 'find-contacts',
+  env: 'prod',
+  version: '1.0.0',
+  sampleRate: 100,
+  premiumSampleRate: 100,
+  trackInteractions: true,
+  defaultPrivacyLevel: 'mask-user-input',
+})
+
+datadogRum.startSessionReplayRecording()
 
 const GlobalStyle = createGlobalStyle`
   * {
